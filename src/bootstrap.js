@@ -2,7 +2,7 @@ import { SQUARE_SIDE_LENGTH } from './constants.js'
 
 import { Game } from './game/game.js'
 import { ShapeGenerator } from './shape-generator/shape-generator.js'
-import Speed from '../speed/speed.js'
+import Speed from './speed/speed.js'
 
 const canvas = document.createElement('canvas')
 canvas.setAttribute('id', 'gameCanvas')
