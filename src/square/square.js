@@ -1,12 +1,13 @@
 import { SQUARE_SIDE_LENGTH } from '../constants.js'
 
 export default class Square {
-  constructor (point, fillStyle, context) {
+  constructor (point, fillStyle, context, speed) {
     // The point of a Square always refers to its top left point
     this.point = point
     this.fillStyle = fillStyle
     this.context = context
     this.sideLength = SQUARE_SIDE_LENGTH
+    this.speed = speed
   }
 
   draw () {
@@ -52,15 +53,23 @@ export default class Square {
       this.point.equals(otherSquare.point)
   }
 
-  moveDown () {
+  overlaps (otherSquare) {
+    return otherSquare !== undefined &&
+      otherSquare instanceof Square &&
+      this.sideLength === otherSquare.sideLength &&
+      Math.abs(this.point.x - otherSquare.point.x) < SQUARE_SIDE_LENGTH &&
+      Math.abs(this.point.y - otherSquare.point.y) < SQUARE_SIDE_LENGTH
+  }
+
+  moveDownBy (distance) {
     this.clear()
-    this.point.moveDown()
+    this.point.moveDownBy(distance)
     this.draw()
   }
 
-  clearAndMoveDown () {
+  clearAndMoveDownBy (distance) {
     this.clear()
-    this.point.moveDown()
+    this.point.moveDownBy(distance)
   }
 
   moveLeft () {
@@ -89,5 +98,9 @@ export default class Square {
 
   hasOccupiedPoint (x, y) {
     return this.point.occupiesCoordinates(x, y)
+  }
+
+  roundYCoordinateToNearestTen () {
+    this.point.roundYCoordinateToNearestTen()
   }
 }

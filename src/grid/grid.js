@@ -6,9 +6,10 @@ export const emptySquareCharacter = '\u2b1c'
 export const fullSquareCharacter = '\u2b1b'
 
 export default class Grid {
-  constructor (canvas, context) {
+  constructor (canvas, context, speed) {
     this.canvas = canvas
     this.context = context
+    this.speed = speed
     this.shapes = []
     this.movingShape = undefined
   }
@@ -35,6 +36,9 @@ export default class Grid {
     while (this.thereIsRoomToMoveDown()) {
       this.moveShapeDown()
     }
+    this.movingShape.clear()
+    this.movingShape.roundYCoordinatesToNearestTen()
+    this.movingShape.draw()
   }
 
   noOtherShapeIsInTheWayDown () {
@@ -46,9 +50,12 @@ export default class Grid {
 
         const commonPoints = points
           .filter(point => otherPoints
-            .some(otherPoint =>
-              otherPoint.x === point.x &&
-              otherPoint.y === point.y + SQUARE_SIDE_LENGTH)
+            .some(otherPoint => {
+              const diff = Math.round(otherPoint.y - (point.y + SQUARE_SIDE_LENGTH))
+              const diffSmallEnough = Math.abs(diff) <= this.speed.calculatedValue
+              const meets = otherPoint.x === point.x && diffSmallEnough && diff >= 0
+              return meets
+            })
           )
 
         if (commonPoints.length > 0) {
@@ -71,7 +78,7 @@ export default class Grid {
           .filter(point => otherPoints
             .some(otherPoint =>
               otherPoint.x + SQUARE_SIDE_LENGTH === point.x &&
-              otherPoint.y === point.y)
+              Math.abs(point.y - otherPoint.y) < SQUARE_SIDE_LENGTH)
           )
 
         if (commonPoints.length > 0) {
@@ -94,7 +101,7 @@ export default class Grid {
           .filter(point => otherPoints
             .some(otherPoint =>
               otherPoint.x === point.x + SQUARE_SIDE_LENGTH &&
-              otherPoint.y === point.y)
+              Math.abs(point.y - otherPoint.y) < SQUARE_SIDE_LENGTH)
           )
 
         if (commonPoints.length > 0) {

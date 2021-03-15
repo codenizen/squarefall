@@ -1,18 +1,22 @@
 import { beforeEach } from '@jest/globals'
+import { SQUARE_SIDE_LENGTH } from '../constants.js'
 
 import { Game } from './game.js'
 import { ShapeGenerator } from '../shape-generator/shape-generator.js'
 import shapeTypes from '../shape/shape.js'
+import Speed from '../speed/speed.js'
 
 describe('Game', () => {
   let canvas
   let context
   let shapeGenerator
+  let speed
 
   beforeEach(() => {
     canvas = document.createElement('canvas')
     context = canvas.getContext('2d')
     shapeGenerator = new ShapeGenerator(canvas, context)
+    speed = new Speed(SQUARE_SIDE_LENGTH)
   })
 
   test('can be instantiated', () => {
@@ -23,14 +27,14 @@ describe('Game', () => {
     let game
 
     beforeEach(() => {
-      game = new Game(canvas, context, shapeGenerator)
+      game = new Game(canvas, context, shapeGenerator, speed)
       jest.spyOn(document, 'getElementById')
         .mockReturnValueOnce({}) // score
         .mockReturnValueOnce({}) // speed
     })
     test('can be called', () => {
       expect(() => {
-        new Game(canvas, context, shapeGenerator).init()
+        new Game(canvas, context, shapeGenerator, speed).init()
       }).not.toThrow()
     })
 

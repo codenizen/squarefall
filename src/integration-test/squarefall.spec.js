@@ -2,12 +2,20 @@ import { SQUARE_SIDE_LENGTH } from '../constants.js'
 import { Game } from '../game/game.js'
 import { ShapeGenerator } from '../shape-generator/shape-generator.js'
 import shapeTypes from '../shape/shape.js'
+import Speed from '../speed/speed.js'
 
 describe('Squarefall', () => {
+  const moveSquaresDown = (game, numberOfSquares) => {
+    for (let i = 0; i < numberOfSquares * SQUARE_SIDE_LENGTH / game.speed.calculatedValue; i++) {
+      game.gameLoop()
+    }
+  }
+
   describe('Move shape left keypress works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
 
@@ -23,7 +31,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator)
+      const game = new Game(canvas, context, shapeGenerator, speed)
 
       game.init()
 
@@ -50,7 +58,8 @@ describe('Squarefall', () => {
   describe('Move shape right keypress works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
 
@@ -66,7 +75,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator)
+      const game = new Game(canvas, context, shapeGenerator, speed)
 
       game.init()
 
@@ -93,7 +102,8 @@ describe('Squarefall', () => {
   describe('Move shape to bottom keypress works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
 
@@ -115,7 +125,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator)
+      const game = new Game(canvas, context, shapeGenerator, speed)
 
       game.init()
 
@@ -135,7 +145,8 @@ describe('Squarefall', () => {
   describe('Rotate shape works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
 
@@ -157,14 +168,12 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator)
+      const game = new Game(canvas, context, shapeGenerator, speed)
 
       game.init()
 
       // there's not enough room initially to rotate certain shapes. to exercise them thoroughly, we first let them fall a bit
-      for (let i = 0; i < 10; i++) {
-        game.heartbeat()
-      }
+      moveSquaresDown(game, 10)
 
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
 
@@ -183,7 +192,8 @@ describe('Squarefall', () => {
   describe('A full bottom row can be cleared', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, J, T } = shapeTypes
 
@@ -197,7 +207,7 @@ describe('Squarefall', () => {
     jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
     jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-    const game = new Game(canvas, context, shapeGenerator)
+    const game = new Game(canvas, context, shapeGenerator, speed)
 
     game.init()
 
@@ -210,7 +220,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 2; i++) {
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -221,7 +231,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 3; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -232,7 +242,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     expect(game.score.get()).toBeGreaterThan(0)
 
@@ -253,7 +263,8 @@ describe('Squarefall', () => {
   describe('Several contiguous rows can be cleared', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
 
@@ -274,7 +285,7 @@ describe('Squarefall', () => {
     jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
     jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-    const game = new Game(canvas, context, shapeGenerator)
+    const game = new Game(canvas, context, shapeGenerator, speed)
 
     game.init()
 
@@ -287,18 +298,13 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
-
-    for (let i = 0; i < 2; i++) {
-      const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
-      game.keyPressed(rotateKeyPressedEvent)
-    }
+    moveSquaresDown(game, 1)
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 4; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -314,7 +320,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 2; i++) {
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -329,7 +335,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 4; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -340,7 +346,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -351,7 +357,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 3; i++) {
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -366,15 +372,13 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    for (let i = 0; i < 4; i++) {
-      game.heartbeat()
-    }
+    moveSquaresDown(game, 4)
 
     const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
     game.keyPressed(rotateKeyPressedEvent)
@@ -388,9 +392,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    for (let i = 0; i < 2; i++) {
-      game.heartbeat()
-    }
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 3; i++) {
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -404,7 +406,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     expect(game.score.get()).toBeGreaterThan(0)
 
@@ -426,7 +428,8 @@ describe('Squarefall', () => {
   describe('Non-contiguous rows can be cleared', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const shapeGenerator = new ShapeGenerator(canvas, context)
+    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, J, S, Z } = shapeTypes
 
@@ -447,7 +450,7 @@ describe('Squarefall', () => {
     jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
     jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-    const game = new Game(canvas, context, shapeGenerator)
+    const game = new Game(canvas, context, shapeGenerator, speed)
 
     game.init()
 
@@ -460,7 +463,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 4; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -471,14 +474,14 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 2; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
       game.keyPressed(moveLeftKeyPressedEvent)
     }
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 2; i++) {
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -494,13 +497,13 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 2; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -511,7 +514,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     for (let i = 0; i < 2; i++) {
       const rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -527,7 +530,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -538,7 +541,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    moveSquaresDown(game, 1)
 
     let rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
 
@@ -553,15 +556,13 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
-
-    game.heartbeat()
+    moveSquaresDown(game, 2)
 
     rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
     game.keyPressed(rotateKeyPressedEvent)
@@ -575,7 +576,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.heartbeat()
+    game.gameLoop()
 
     expect(game.score.get()).toBeGreaterThan(0)
 

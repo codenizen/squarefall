@@ -4,11 +4,11 @@ import Point from '../point/point.js'
 import Square from '../square/square.js'
 
 export class Shape {
-  init (fillStyle, pointOfTranslation, points, context) {
+  init (fillStyle, pointOfTranslation, points, context, speed) {
     this.pointOfTranslation = pointOfTranslation
 
-    const pointOfTranslationSquare = new Square(pointOfTranslation, fillStyle, context)
-    const otherSquares = points.map(point => new Square(point, fillStyle, context))
+    const pointOfTranslationSquare = new Square(pointOfTranslation, fillStyle, context, speed)
+    const otherSquares = points.map(point => new Square(point, fillStyle, context, speed))
 
     this.squares = [pointOfTranslationSquare, ...otherSquares]
 
@@ -17,6 +17,7 @@ export class Shape {
     this.largestX = this.calculateLargestX()
 
     this.context = context
+    this.speed = speed
   }
 
   getPointOfTranslationX () {
@@ -91,7 +92,7 @@ export class Shape {
   hasCommonPointWith (otherShape) {
     for (const square of this.squares) {
       for (const otherSquare of otherShape.squares) {
-        if (square.equals(otherSquare)) {
+        if (square.overlaps(otherSquare)) {
           return true
         }
       }
@@ -102,32 +103,27 @@ export class Shape {
 
   moveDown () {
     this.clear()
-    this.squares.forEach(square => square.moveDown())
+    this.squares.forEach(square => square.moveDownBy(this.speed.calculatedValue))
     this.largestY = this.calculateLargestY()
     this.draw()
   }
 
   moveLeft () {
-    this.clear()
     this.squares.forEach(square => square.moveLeft())
     this.smallestX = this.calculateSmallestX()
     this.largestX = this.calculateLargestX()
-    this.draw()
   }
 
   moveRight () {
-    this.clear()
     this.squares.forEach(square => square.moveRight())
     this.smallestX = this.calculateSmallestX()
     this.largestX = this.calculateLargestX()
-    this.draw()
   }
 
   calculateLargestY () {
     return this.squares
       .map(square => square.point.y)
-      .sort()
-      .pop()
+      .sort((a, b) => b - a)[0]
   }
 
   calculateSmallestX () {
@@ -160,7 +156,7 @@ export class Shape {
     let redraw = false
     this.squares.forEach(square => {
       if (square.isBelowLimit(yLimit)) {
-        square.clearAndMoveDown()
+        square.clearAndMoveDownBy(SQUARE_SIDE_LENGTH)
         redraw = true
       }
     })
@@ -171,22 +167,28 @@ export class Shape {
     const hasOccupiedPointPerSquare = this.squares.map(square => square.hasOccupiedPoint(x, y))
     return hasOccupiedPointPerSquare.includes(true)
   }
+
+  roundYCoordinatesToNearestTen () {
+    this.squares.forEach(square => {
+      square.roundYCoordinateToNearestTen()
+    })
+  }
 }
 
 class O extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0)
-    const point2 = new Point(xCoordOfAppearance, 0)
-    const point3 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
-    const pointOfTranslation = new Point(xCoordOfAppearance, SQUARE_SIDE_LENGTH)
+    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0, speed)
+    const point2 = new Point(xCoordOfAppearance, 0, speed)
+    const point3 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
+    const pointOfTranslation = new Point(xCoordOfAppearance, SQUARE_SIDE_LENGTH, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'thistle'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -197,104 +199,104 @@ class O extends Shape {
 }
 
 class T extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
-    const pointOfTranslation = new Point(xCoordOfAppearance, SQUARE_SIDE_LENGTH)
-    const point2 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
-    const point3 = new Point(xCoordOfAppearance, 0)
+    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
+    const pointOfTranslation = new Point(xCoordOfAppearance, SQUARE_SIDE_LENGTH, speed)
+    const point2 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
+    const point3 = new Point(xCoordOfAppearance, 0, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'lightgrey'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
 class I extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const pointOfTranslation = new Point(xCoordOfAppearance, 0)
-    const point1 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, 0)
-    const point2 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0)
-    const point3 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, 0)
+    const pointOfTranslation = new Point(xCoordOfAppearance, 0, speed)
+    const point1 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, 0, speed)
+    const point2 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0, speed)
+    const point3 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, 0, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'yellowgreen'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
 class S extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0)
-    const point2 = new Point(xCoordOfAppearance, 0)
-    const point3 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
-    const pointOfTranslation = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
+    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0, speed)
+    const point2 = new Point(xCoordOfAppearance, 0, speed)
+    const point3 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
+    const pointOfTranslation = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'khaki'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
 class Z extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0)
-    const point2 = new Point(xCoordOfAppearance, 0)
-    const pointOfTranslation = new Point(xCoordOfAppearance, SQUARE_SIDE_LENGTH)
-    const point3 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
+    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0, speed)
+    const point2 = new Point(xCoordOfAppearance, 0, speed)
+    const pointOfTranslation = new Point(xCoordOfAppearance, SQUARE_SIDE_LENGTH, speed)
+    const point3 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'tan'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
 class L extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const point1 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, 0)
-    const pointOfTranslation = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0)
-    const point2 = new Point(xCoordOfAppearance, 0)
-    const point3 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
+    const point1 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, 0, speed)
+    const pointOfTranslation = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0, speed)
+    const point2 = new Point(xCoordOfAppearance, 0, speed)
+    const point3 = new Point(xCoordOfAppearance - 2 * SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'lightblue'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
 class J extends Shape {
-  constructor (xCoordOfAppearance, context) {
+  constructor (xCoordOfAppearance, context, speed) {
     super()
 
-    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0)
-    const pointOfTranslation = new Point(xCoordOfAppearance, 0)
-    const point2 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, 0)
-    const point3 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH)
+    const point1 = new Point(xCoordOfAppearance - SQUARE_SIDE_LENGTH, 0, speed)
+    const pointOfTranslation = new Point(xCoordOfAppearance, 0, speed)
+    const point2 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, 0, speed)
+    const point3 = new Point(xCoordOfAppearance + SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, speed)
 
     const otherPoints = [point1, point2, point3]
 
     const fillStyle = 'darksalmon'
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context)
+    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
   }
 }
 

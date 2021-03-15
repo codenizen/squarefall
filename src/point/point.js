@@ -8,8 +8,8 @@ export default class Point {
     this.y = y
   }
 
-  moveDown () {
-    this.y += SQUARE_SIDE_LENGTH
+  moveDownBy (distance) {
+    this.y += distance
   }
 
   moveLeft () {
@@ -87,5 +87,13 @@ export default class Point {
 
   occupiesCoordinates (x, y) {
     return this.x === x && this.y === y
+  }
+
+  roundYCoordinateToNearestTen () {
+    const y = this.y // e.g. 851
+    const yDiv = y / 10 // e.g. 85.1
+    const yWhole = yDiv.toFixed() // e.g. 85
+    const yWhole10 = yWhole * 10 // e.g. 850
+    this.y = yWhole10
   }
 }
