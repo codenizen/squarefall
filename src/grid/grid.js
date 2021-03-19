@@ -36,9 +36,7 @@ export default class Grid {
     while (this.thereIsRoomToMoveDown()) {
       this.moveShapeDown()
     }
-    this.movingShape.clear()
     this.movingShape.roundYCoordinatesToNearestTen()
-    this.movingShape.draw()
   }
 
   noOtherShapeIsInTheWayDown () {
@@ -114,14 +112,11 @@ export default class Grid {
   }
 
   rotateShape () {
-    this.movingShape.clear()
     this.movingShape.rotateClockwise()
 
     if (!(this.allPointsFitInsideGrid() && this.noOtherShapeIsInTheWay(this.movingShape))) {
       this.movingShape.rotateCounterClockwise()
     }
-
-    this.movingShape.draw()
   }
 
   allPointsFitInsideGrid () {
@@ -162,7 +157,6 @@ export default class Grid {
       if (occupiedSquaresAndShapes.size === amountOfPointsInRow) {
         fullRowCount += 1
         for (const [square, shape] of occupiedSquaresAndShapes) {
-          square.clear()
           shape.remove(square)
         }
         this.shiftDownward(i)
@@ -175,10 +169,7 @@ export default class Grid {
     //  Everything that is above this rowIndex must shift down by SIDE_LENGTH.
     const yLimit = rowIndex * SQUARE_SIDE_LENGTH
     for (const shape of this.shapes) {
-      const redraw = shape.clearAndMoveSquaresBelowYLimit(yLimit)
-      if (redraw) {
-        shape.draw()
-      }
+      shape.moveSquaresBelowYLimit(yLimit)
     }
   }
 
@@ -192,29 +183,6 @@ export default class Grid {
     }
 
     return true
-  }
-
-  drawLines () {
-    const rowCount = this.canvas.height / SQUARE_SIDE_LENGTH
-    for (let i = 1; i < rowCount; i += 1) {
-      this.context.strokeStyle = 'black'
-      this.context.beginPath()
-      this.context.moveTo(0, i * SQUARE_SIDE_LENGTH)
-      this.context.lineTo(this.canvas.width, i * SQUARE_SIDE_LENGTH)
-      this.context.stroke()
-    }
-  }
-
-  drawAllPoints () {
-    for (const shape of this.shapes) {
-      shape.drawPoints()
-    }
-  }
-
-  drawCoordinates () {
-    for (const shape of this.shapes) {
-      shape.drawCoordinates()
-    }
   }
 
   hasOccupiedPoint (x, y) {

@@ -16,32 +16,6 @@ export default class Square {
     this.context.fillRect(this.point.x, this.point.y, this.sideLength, this.sideLength)
   }
 
-  drawPoint () {
-    this.context.beginPath()
-    this.context.strokeStyle = 'red'
-    this.context.arc(this.point.x, this.point.y, 10, 0, 2 * Math.PI)
-    this.context.stroke()
-  }
-
-  drawCoordinates () {
-    this.context.fillStyle = 'black'
-    this.context.fillText(`${this.point.x} | ${this.point.y}`, this.point.x, this.point.y)
-  }
-
-  drawEdgePoints () {
-    this.drawEdgePoint('yellow', this.point.x, this.point.y)
-    this.drawEdgePoint('blue', this.point.x + SQUARE_SIDE_LENGTH, this.point.y)
-    this.drawEdgePoint('magenta', this.point.x + SQUARE_SIDE_LENGTH, this.point.y + SQUARE_SIDE_LENGTH)
-    this.drawEdgePoint('black', this.point.x, this.point.y + SQUARE_SIDE_LENGTH)
-  }
-
-  drawEdgePoint (color, x, y) {
-    this.context.beginPath()
-    this.context.strokeStyle = color
-    this.context.arc(x, y, 10, 0, 2 * Math.PI)
-    this.context.stroke()
-  }
-
   clear () {
     this.context.clearRect(this.point.x, this.point.y, this.sideLength, this.sideLength)
   }
@@ -62,26 +36,15 @@ export default class Square {
   }
 
   moveDownBy (distance) {
-    this.clear()
-    this.point.moveDownBy(distance)
-    this.draw()
-  }
-
-  clearAndMoveDownBy (distance) {
-    this.clear()
     this.point.moveDownBy(distance)
   }
 
   moveLeft () {
-    this.clear()
     this.point.moveLeft()
-    this.draw()
   }
 
   moveRight () {
-    this.clear()
     this.point.moveRight()
-    this.draw()
   }
 
   transformClockwise (x, y) {

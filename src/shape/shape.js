@@ -43,24 +43,6 @@ export class Shape {
     this.squares.forEach(square => square.drawPoint())
   }
 
-  drawCoordinates () {
-    this.squares.forEach((square) => square.drawCoordinates())
-  }
-
-  markPointOfTranslation () {
-    this.context.fillStyle = 'rgba(120, 230, 244, 0.2)'
-
-    this.context.beginPath()
-    this.context.arc(this.pointOfTranslation.x, this.pointOfTranslation.y, 10, 0, 2 * Math.PI)
-    this.context.stroke()
-  }
-
-  drawEdgePoints () {
-    this.squares.forEach(square => {
-      square.drawEdgePoints()
-    })
-  }
-
   clear () {
     this.squares.forEach(square => square.clear())
   }
@@ -102,10 +84,8 @@ export class Shape {
   }
 
   moveDown () {
-    this.clear()
     this.squares.forEach(square => square.moveDownBy(this.speed.calculatedValue))
     this.largestY = this.calculateLargestY()
-    this.draw()
   }
 
   moveLeft () {
@@ -152,15 +132,12 @@ export class Shape {
     return this.largestX
   }
 
-  clearAndMoveSquaresBelowYLimit (yLimit) {
-    let redraw = false
+  moveSquaresBelowYLimit (yLimit) {
     this.squares.forEach(square => {
       if (square.isBelowLimit(yLimit)) {
-        square.clearAndMoveDownBy(SQUARE_SIDE_LENGTH)
-        redraw = true
+        square.moveDownBy(SQUARE_SIDE_LENGTH)
       }
     })
-    return redraw
   }
 
   hasOccupiedPoint (x, y) {

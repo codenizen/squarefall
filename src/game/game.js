@@ -14,9 +14,7 @@ export class Game {
   update () {
     if (this.grid.movingShape) {
       if (!this.grid.thereIsRoomToMoveDown()) {
-        this.grid.movingShape.clear()
         this.grid.movingShape.roundYCoordinatesToNearestTen()
-        this.grid.movingShape.draw()
         this.grid.movingShape = undefined
       }
     } else {
@@ -34,17 +32,17 @@ export class Game {
     }
   }
 
-  redrawMovingShape () {
-    if (this.grid.movingShape) {
-      this.grid.movingShape.clear()
-      this.grid.movingShape.draw()
-    }
+  draw () {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.grid.shapes.forEach(shape => {
+      shape.draw()
+    })
   }
 
   gameLoop () {
     if (!this.isPaused && !this.isOver) {
       this.update()
-      this.redrawMovingShape()
+      this.draw()
       this.currentAnimationFrameRequestId = window.requestAnimationFrame(() => this.gameLoop())
     }
   }
@@ -98,10 +96,6 @@ export class Game {
               }
             }
             break
-          case '1': this.grid.drawAllPoints(); break
-          case '2': this.grid.drawCoordinates(); break
-          case '3': this.grid.movingShape.drawEdgePoints(); break
-          case '4': this.grid.drawLines(); break
           default: break
         }
       }
