@@ -145,8 +145,8 @@ export class Game {
 
   requestSpeedIncrease () {
     if (this.speed.shownValue < this.MAX_SPEED) {
-      const desiredSpeed = Math.trunc(this.score.get() / this.SCORE_PER_SPEED_INCREASE)
-      this.speed.increaseIfNecessary(desiredSpeed)
+      const desiredShownValue = Math.trunc(this.score.get() / this.SCORE_PER_SPEED_INCREASE) + 1
+      this.speed.increaseIfNecessary(desiredShownValue)
     }
   }
 

@@ -1,7 +1,7 @@
 export default class Speed {
   constructor (squareSideLength) {
     this.squareSideLength = squareSideLength
-    this.shownValue = 0
+    this.shownValue = 1
     this.divisor = 30
     this.calculatedValue = this.calculateValue(squareSideLength, this.divisor)
   }
@@ -12,8 +12,8 @@ export default class Speed {
     this.calculatedValue = this.calculateValue(this.squareSideLength, this.divisor)
   }
 
-  increaseIfNecessary (desiredSpeed) {
-    if (desiredSpeed > this.shownValue) {
+  increaseIfNecessary (desiredShownValue) {
+    if (desiredShownValue > this.shownValue) {
       this.increase()
       document.getElementById('speedContainer').classList.add('shaken')
       setTimeout(
