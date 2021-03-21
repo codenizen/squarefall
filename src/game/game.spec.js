@@ -15,8 +15,8 @@ describe('Game', () => {
   beforeEach(() => {
     canvas = document.createElement('canvas')
     context = canvas.getContext('2d')
-    shapeGenerator = new ShapeGenerator(canvas, context)
     speed = new Speed(SQUARE_SIDE_LENGTH)
+    shapeGenerator = new ShapeGenerator(canvas, context, speed)
   })
 
   test('can be instantiated', () => {
@@ -62,30 +62,6 @@ describe('Game', () => {
       expect(game.grid).toBeDefined()
     })
 
-    test('has a shape generated', () => {
-      jest.spyOn(shapeGenerator, 'generateShape')
-      game.init()
-      expect(shapeGenerator.generateShape).toHaveBeenCalled()
-    })
-
-    test('pushes the generated shape onto the grid', () => {
-      game.init()
-      expect(game.grid.shapes.length).toBe(1)
-      expect(game.grid.movingShape).toBeDefined()
-    })
-
-    test('draws the generated shape', () => {
-      const shape = {
-        draw: () => { }
-      }
-
-      jest.spyOn(shape, 'draw')
-      jest.spyOn(shapeGenerator, 'generateShape').mockReturnValueOnce(shape)
-
-      game.init()
-      expect(shape.draw).toHaveBeenCalled()
-    })
-
     test('sets up a Score', () => {
       game.init()
       expect(game.score).toBeDefined()
@@ -106,6 +82,36 @@ describe('Game', () => {
       game.init()
       expect(game.isPaused).toBeDefined()
       expect(game.isPaused).toBe(false)
+    })
+  })
+
+  describe('update()', () => {
+    let game
+
+    beforeEach(() => {
+      game = new Game(canvas, context, shapeGenerator, speed)
+      jest.spyOn(document, 'getElementById')
+        .mockReturnValueOnce({}) // score
+        .mockReturnValueOnce({}) // speed
+      game.init()
+    })
+
+    test('can be called', () => {
+      expect(() => {
+        game.update()
+      }).not.toThrow()
+    })
+
+    test('has a shape generated', () => {
+      jest.spyOn(shapeGenerator, 'generateShape')
+      game.update()
+      expect(shapeGenerator.generateShape).toHaveBeenCalled()
+    })
+
+    test('pushes the generated shape onto the grid', () => {
+      game.update()
+      expect(game.grid.shapes.length).toBe(1)
+      expect(game.grid.movingShape).toBeDefined()
     })
   })
 })

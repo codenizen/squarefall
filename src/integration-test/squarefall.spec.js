@@ -35,6 +35,8 @@ describe('Squarefall', () => {
 
       game.init()
 
+      game.gameLoop()
+
       const movingShape = game.grid.movingShape
 
       const expectedXCoordinates = movingShape.squares
@@ -78,6 +80,8 @@ describe('Squarefall', () => {
       const game = new Game(canvas, context, shapeGenerator, speed)
 
       game.init()
+
+      game.gameLoop()
 
       const movingShape = game.grid.movingShape
 
@@ -129,6 +133,8 @@ describe('Squarefall', () => {
 
       game.init()
 
+      game.gameLoop()
+
       const moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
       game.keyPressed(moveToBottomKeyPressedEvent)
@@ -172,6 +178,8 @@ describe('Squarefall', () => {
 
       game.init()
 
+      game.gameLoop()
+
       // there's not enough room initially to rotate certain shapes. to exercise them thoroughly, we first let them fall a bit
       moveSquaresDown(game, 10)
 
@@ -211,6 +219,8 @@ describe('Squarefall', () => {
 
     game.init()
 
+    game.gameLoop()
+
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
       game.keyPressed(moveLeftKeyPressedEvent)
@@ -219,6 +229,8 @@ describe('Squarefall', () => {
     let moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 1)
 
@@ -289,6 +301,8 @@ describe('Squarefall', () => {
 
     game.init()
 
+    game.gameLoop()
+
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
       game.keyPressed(moveLeftKeyPressedEvent)
@@ -298,11 +312,15 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
+    game.gameLoop()
+
     moveSquaresDown(game, 1)
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 1)
 
@@ -319,6 +337,8 @@ describe('Squarefall', () => {
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 1)
 
@@ -356,6 +376,8 @@ describe('Squarefall', () => {
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 1)
 
@@ -377,6 +399,8 @@ describe('Squarefall', () => {
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 4)
 
@@ -391,6 +415,8 @@ describe('Squarefall', () => {
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 1)
 
@@ -454,6 +480,8 @@ describe('Squarefall', () => {
 
     game.init()
 
+    game.gameLoop()
+
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
       game.keyPressed(moveLeftKeyPressedEvent)
@@ -514,6 +542,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
+    game.gameLoop()
+
     moveSquaresDown(game, 1)
 
     for (let i = 0; i < 2; i++) {
@@ -541,6 +571,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
+    game.gameLoop()
+
     moveSquaresDown(game, 1)
 
     let rotateKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'k' })
@@ -561,6 +593,8 @@ describe('Squarefall', () => {
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
+
+    game.gameLoop()
 
     moveSquaresDown(game, 2)
 

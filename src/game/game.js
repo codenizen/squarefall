@@ -13,7 +13,9 @@ export class Game {
 
   update () {
     if (this.grid.movingShape) {
-      if (!this.grid.thereIsRoomToMoveDown()) {
+      if (this.grid.thereIsRoomToMoveDown()) {
+        this.grid.moveShapeDown()
+      } else {
         this.grid.movingShape.roundYCoordinatesToNearestTen()
         this.grid.movingShape = undefined
       }
@@ -25,10 +27,6 @@ export class Game {
       } else {
         this.end()
       }
-    }
-
-    if (this.grid.movingShape && this.grid.thereIsRoomToMoveDown()) {
-      this.grid.moveShapeDown()
     }
   }
 
@@ -57,10 +55,6 @@ export class Game {
     }, 200) // to allow the user some time to spot the loading text
 
     this.grid = new Grid(this.canvas, this.context, this.speed)
-    const generatedShape = this.shapeGenerator.generateShape()
-    this.grid.shapes.push(generatedShape)
-    this.grid.movingShape = generatedShape
-    generatedShape.draw()
     this.score = new Score()
     document.getElementById('current-speed').innerText = this.speed.shownValue
     this.SCORE_PER_SPEED_INCREASE = 50
