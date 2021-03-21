@@ -85,4 +85,49 @@ describe('Grid', () => {
     const actualOutput = grid.print()
     expect(actualOutput).toBe(expectedOutput)
   })
+
+  describe.only('removeFullRows()', () => {
+    test.only('removes shapes without any squares left from the grid', () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = 500
+      canvas.height = 1000
+
+      const context = canvas.getContext('2d')
+      const shapeGenerator = new ShapeGenerator(canvas, context)
+
+      const { I, J, T } = shapeTypes
+
+      jest.spyOn(Object, 'values')
+        .mockReturnValueOnce([I])
+        .mockReturnValueOnce([J])
+        .mockReturnValueOnce([T])
+
+      const iShape = shapeGenerator.generateShape()
+      const jShape = shapeGenerator.generateShape()
+      const tShape = shapeGenerator.generateShape()
+
+      iShape.squares.forEach(square => {
+        square.point.x = square.point.x - 150
+        square.point.y = square.point.y + 500
+      })
+
+      jShape.squares.forEach(square => {
+        square.point.x = square.point.x + 150
+        square.point.y = square.point.y + 500
+      })
+
+      tShape.squares.forEach(square => {
+        square.point.y = square.point.y + 450
+      })
+
+      const grid = new Grid(canvas, context)
+      grid.shapes.push(iShape, jShape, tShape)
+
+      grid.removeFullRows()
+
+      expect(grid.shapes.length === 2)
+      expect(grid.shapes[0] instanceof J)
+      expect(grid.shapes[1] instanceof T)
+    })
+  })
 })

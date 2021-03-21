@@ -162,6 +162,7 @@ export default class Grid {
         this.shiftDownward(i)
       }
     }
+    this.shapes = this.shapes.filter(shape => shape.squares.length > 0)
     return fullRowCount
   }
 
