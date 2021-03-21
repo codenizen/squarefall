@@ -219,7 +219,7 @@ describe('Squarefall', () => {
 
     game.init()
 
-    game.gameLoop()
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -230,7 +230,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -243,7 +244,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 3; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -254,14 +256,13 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
 
     expect(game.score.get()).toBeGreaterThan(0)
 
     const expectedRemainingPointCoordinates = [200, 400, 950, 950]
 
     const actualRemainingPointCoordinates = game.grid.shapes
-      .slice(0, game.grid.shapes.length - 1)
       .map(shape => shape.squares)
       .flat()
       .map(square => square.point)
@@ -301,7 +302,7 @@ describe('Squarefall', () => {
 
     game.init()
 
-    game.gameLoop()
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -312,7 +313,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -320,7 +322,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -338,7 +341,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -355,7 +359,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -366,7 +371,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -377,7 +383,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -394,13 +401,15 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 4)
 
@@ -416,7 +425,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -432,7 +442,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
 
     expect(game.score.get()).toBeGreaterThan(0)
 
@@ -440,7 +450,6 @@ describe('Squarefall', () => {
       850, 900, 900, 900, 950, 950, 950, 950, 950, 950]
 
     const actualRemainingPointCoordinates = game.grid.shapes
-      .slice(0, game.grid.shapes.length - 1)
       .map(shape => shape.squares)
       .flat()
       .map(square => square.point)
@@ -480,7 +489,7 @@ describe('Squarefall', () => {
 
     game.init()
 
-    game.gameLoop()
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -491,7 +500,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -502,7 +512,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 2; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -525,13 +536,15 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 2; i++) {
       const moveRightKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'l' })
@@ -542,7 +555,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -560,7 +574,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     for (let i = 0; i < 4; i++) {
       const moveLeftKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: 'j' })
@@ -571,7 +586,8 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 1)
 
@@ -588,13 +604,15 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveToBottomKeyPressedEvent = new window.KeyboardEvent('keypressed', { key: ' ' })
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
+    game.gameLoop() // generate new shape
 
     moveSquaresDown(game, 2)
 
@@ -610,7 +628,7 @@ describe('Squarefall', () => {
 
     game.keyPressed(moveToBottomKeyPressedEvent)
 
-    game.gameLoop()
+    game.gameLoop() // clear full rows
 
     expect(game.score.get()).toBeGreaterThan(0)
 
@@ -618,7 +636,6 @@ describe('Squarefall', () => {
       850, 850, 850, 900, 900, 900, 900, 900, 900, 900, 900, 900, 950, 950, 950, 950, 950, 950, 950, 950]
 
     const actualRemainingPointCoordinates = game.grid.shapes
-      .slice(0, game.grid.shapes.length - 1)
       .map(shape => shape.squares)
       .flat()
       .map(square => square.point)

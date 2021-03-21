@@ -36,7 +36,6 @@ export default class Grid {
     while (this.thereIsRoomToMoveDown()) {
       this.moveShapeDown()
     }
-    this.movingShape.roundYCoordinatesToNearestTen()
   }
 
   noOtherShapeIsInTheWayDown () {

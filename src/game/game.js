@@ -18,6 +18,11 @@ export class Game {
       } else {
         this.grid.movingShape.roundYCoordinatesToNearestTen()
         this.grid.movingShape = undefined
+        const fullRowCount = this.grid.removeFullRows()
+        if (fullRowCount > 0) {
+          this.requestScoreIncrease(fullRowCount)
+          this.requestSpeedIncrease()
+        }
       }
     } else {
       const generatedShape = this.shapeGenerator.generateShape()
@@ -81,14 +86,6 @@ export class Game {
             break
           case ' ':
             this.grid.moveShapeToBottom()
-            if (!this.grid.thereIsRoomToMoveDown()) {
-              this.grid.movingShape = undefined
-              const fullRowCount = this.grid.removeFullRows()
-              if (fullRowCount > 0) {
-                this.requestScoreIncrease(fullRowCount)
-                this.requestSpeedIncrease()
-              }
-            }
             break
           default: break
         }
