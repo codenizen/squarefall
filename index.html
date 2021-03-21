@@ -1,60 +1,61 @@
 <!doctype html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Squarefall</title>
     <link rel="stylesheet" href="./style.css">
     <script type="module" src="main.js" defer></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="loading">Loading...</div>
     <div align="center" id="container">
-        <div id="helpContainer">
-            <div class="heading">H E L P</div>
-            <div>
-                <keyboard-key>J</keyboard-key>
-                left
-            </div>
-            <div>
-                <keyboard-key>K</keyboard-key>
-                rotate
-            </div>
-            <div>
-                <keyboard-key>L</keyboard-key>
-                right
-            </div>
-            <div>
-                <keyboard-key>space</keyboard-key>
-                drop
-            </div>
-            <div>
-                <keyboard-key>P</keyboard-key>
-                pause
-            </div>
+      <div id="helpContainer">
+        <div class="heading">H E L P</div>
+        <div id="keymapContainer">
+          <div>
+            <keyboard-key>J</keyboard-key>
+          </div>
+          <div>left</div>
+          <div>
+            <keyboard-key>K</keyboard-key>
+          </div>
+          <div>rotate</div>
+          <div>
+            <keyboard-key>L</keyboard-key>
+          </div>
+          <div>right</div>
+          <div>
+            <keyboard-key>space</keyboard-key>
+          </div>
+          <div>drop</div>
+          <div>
+            <keyboard-key>P</keyboard-key>
+          </div>
+          <div>pause</div>
         </div>
-        <div id="gameContainer">
-        </div>
-        <div id="gameOverContainer" hidden>
-            GAME OVER
-        </div>
-        <div id="speedContainer">
-            <div class="heading">S P E E D</div>
-            <span id="current-speed">0</span>
-        </div>
-        <div id="scoreContainer">
-            <div class="heading">S C O R E</div>
-            <div>
-                <span>Best:</span>
-                <span id="high-score"></span>
-            </div>
-            <div id="score">
-                <span>Current:</span>
-                <span id="current-score">0</span>
-            </div>
-        </div>
+      </div>
+      <div id="gameContainer">
     </div>
-</body>
+    <div id="gameOverContainer" hidden>
+        GAME OVER
+    </div>
+      <div id="speedContainer">
+        <div class="heading">S P E E D</div>
+        <span id="current-speed">0</span>
+      </div>
+      <div id="scoreContainer">
+        <div class="heading">S C O R E</div>
+        <div>
+          <span>Best:</span>
+          <span id="high-score"></span>
+        </div>
+        <div id="score">
+          <span>Current:</span>
+          <span id="current-score">0</span>
+        </div>
+      </div>
+    </div>
+  </body>
 
 </html>
