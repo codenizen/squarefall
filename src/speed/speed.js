@@ -1,15 +1,12 @@
 export default class Speed {
-  constructor (squareSideLength) {
-    this.squareSideLength = squareSideLength
+  constructor (pixelsPerFrame) {
     this.shownValue = 1
-    this.divisor = 30
-    this.calculatedValue = this.calculateValue(squareSideLength, this.divisor)
+    this.calculatedValue = pixelsPerFrame
   }
 
   increase () {
     this.shownValue += 1
-    this.divisor -= 1
-    this.calculatedValue = this.calculateValue(this.squareSideLength, this.divisor)
+    this.calculatedValue = parseFloat((this.calculatedValue + 0.1).toFixed(1))
   }
 
   increaseIfNecessary (desiredShownValue) {
@@ -23,9 +20,5 @@ export default class Speed {
       document.getElementById('current-speed').innerText = this.shownValue
     }
     return this.shownValue
-  }
-
-  calculateValue (squareSideLength, divisor) {
-    return Math.round(squareSideLength / divisor)
   }
 }

@@ -51,10 +51,6 @@ export default class Square {
     this.point.transformClockwise(x, y)
   }
 
-  transformCounterClockwise (x, y) {
-    this.point.transformCounterClockwise(x, y)
-  }
-
   isBelowLimit (yLimit) {
     return this.point.y < yLimit
   }

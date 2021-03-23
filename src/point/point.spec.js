@@ -42,4 +42,30 @@ describe('Point', () => {
       expect(point.occupiesCoordinates(x, y)).toBe(expected)
     })
   })
+
+  test('rotateClockWise() rounds both coordinates to nearest 10 as expected', () => {
+    const point = new Point(333.3333, 46.66666666667)
+    point.rotateClockwise()
+    expect(Math.abs(point.x)).toBe(50)
+    expect(Math.abs(point.y)).toBe(330)
+  })
+
+  test('roundXCoordinateToNearestTen() works as expected', () => {
+    const point = new Point(111.11111, 100)
+    point.roundXCoordinateToNearestTen()
+    expect(point.x).toBe(110)
+  })
+
+  test('roundYCoordinateToNearestTen() works as expected', () => {
+    const point = new Point(100, 88.888888)
+    point.roundYCoordinateToNearestTen()
+    expect(point.y).toBe(90)
+  })
+
+  test('roundToNearestTen() works as expected', () => {
+    const point = new Point()
+    const expectedRoundedNumber = 120
+    const actualRoundedNumber = point.roundToNearestTen(123.456)
+    expect(actualRoundedNumber).toBe(expectedRoundedNumber)
+  })
 })

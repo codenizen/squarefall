@@ -14,7 +14,7 @@ describe('Squarefall', () => {
   describe('Move shape left keypress works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
@@ -60,7 +60,7 @@ describe('Squarefall', () => {
   describe('Move shape right keypress works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
@@ -106,7 +106,7 @@ describe('Squarefall', () => {
   describe('Move shape to bottom keypress works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
@@ -151,7 +151,7 @@ describe('Squarefall', () => {
   describe('Rotate shape works as expected', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
@@ -200,7 +200,7 @@ describe('Squarefall', () => {
   describe('A full bottom row can be cleared', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, J, T } = shapeTypes
@@ -276,7 +276,7 @@ describe('Squarefall', () => {
   describe('Several contiguous rows can be cleared', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, L, J, S, Z, T } = shapeTypes
@@ -463,7 +463,7 @@ describe('Squarefall', () => {
   describe('Non-contiguous rows can be cleared', () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
-    const speed = new Speed(SQUARE_SIDE_LENGTH)
+    const speed = new Speed(2)
     const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 
     const { I, O, J, S, Z } = shapeTypes

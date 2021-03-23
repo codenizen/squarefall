@@ -1,5 +1,4 @@
 import { beforeEach } from '@jest/globals'
-import { SQUARE_SIDE_LENGTH } from '../constants.js'
 
 import { Game } from './game.js'
 import { ShapeGenerator } from '../shape-generator/shape-generator.js'
@@ -15,7 +14,7 @@ describe('Game', () => {
   beforeEach(() => {
     canvas = document.createElement('canvas')
     context = canvas.getContext('2d')
-    speed = new Speed(SQUARE_SIDE_LENGTH)
+    speed = new Speed(2)
     shapeGenerator = new ShapeGenerator(canvas, context, speed)
   })
 

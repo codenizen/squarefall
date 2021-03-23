@@ -26,12 +26,6 @@ export default class Point {
     this.translate(oldX, oldY)
   }
 
-  transformCounterClockwise (oldX, oldY) {
-    this.translate(-oldX, -oldY)
-    this.rotateCounterClockwise()
-    this.translate(oldX, oldY)
-  }
-
   translate (offsetX, offsetY) {
     this.x = this.x + offsetX
     this.y = this.y + offsetY
@@ -55,26 +49,9 @@ export default class Point {
 
     this.x = -oldY
     this.y = oldX
-  }
 
-  rotateCounterClockwise () {
-    const oldX = this.x
-    const oldY = this.y
-
-    /*
-    We are performing a counter-clockwise 90 degree rotation in a 2D coordinate system.
-    https://en.wikipedia.org/wiki/Rotation_matrix
-
-    -90 degrees = 3 * Math.PI / 2 radians
-    Math.sin(3 * Math.PI / 2) = -1
-    Math.cos(3 * Math.PI / 2) = 0
-
-    newX = oldX * 0 - oldY * -1 = oldY
-    newY = oldX * -1 + oldY * 0 = -oldX
-    */
-
-    this.x = oldY
-    this.y = -oldX
+    this.roundXCoordinateToNearestTen()
+    this.roundYCoordinateToNearestTen()
   }
 
   equals (otherPoint) {
@@ -90,10 +67,17 @@ export default class Point {
   }
 
   roundYCoordinateToNearestTen () {
-    const y = this.y // e.g. 851
-    const yDiv = y / 10 // e.g. 85.1
-    const yWhole = yDiv.toFixed() // e.g. 85
-    const yWhole10 = yWhole * 10 // e.g. 850
-    this.y = yWhole10
+    this.y = this.roundToNearestTen(this.y)
+  }
+
+  roundXCoordinateToNearestTen () {
+    this.x = this.roundToNearestTen(this.x)
+  }
+
+  roundToNearestTen (number) {
+    const numberDividedByTen = number / 10 // e.g. 85.1
+    const numberWhole = numberDividedByTen.toFixed() // e.g. 85
+    const numberWholeTimesTen = numberWhole * 10 // e.g. 850
+    return numberWholeTimesTen
   }
 }

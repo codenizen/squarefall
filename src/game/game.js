@@ -38,7 +38,11 @@ export class Game {
   draw () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.grid.shapes.forEach(shape => {
-      shape.draw()
+      if (shape === this.grid.movingShape) {
+        shape.drawAsRectangles()
+      } else {
+        shape.drawAsSquares()
+      }
     })
   }
 

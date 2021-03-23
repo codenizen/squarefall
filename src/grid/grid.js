@@ -111,10 +111,12 @@ export default class Grid {
   }
 
   rotateShape () {
+    const originalCoordinates = this.movingShape.getCoordinatesOfSquares()
+
     this.movingShape.rotateClockwise()
 
     if (!(this.allPointsFitInsideGrid() && this.noOtherShapeIsInTheWay(this.movingShape))) {
-      this.movingShape.rotateCounterClockwise()
+      this.movingShape.restoreCoordinatesOfSquares(originalCoordinates)
     }
   }
 

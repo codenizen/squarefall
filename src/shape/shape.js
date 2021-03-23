@@ -35,7 +35,7 @@ export class Shape {
     }
   }
 
-  draw () {
+  drawAsSquares () {
     this.squares.forEach(square => square.draw())
   }
 
@@ -50,15 +50,6 @@ export class Shape {
   rotateClockwise () {
     this.squares.forEach(square => {
       square.transformClockwise(this.pointOfTranslation.x, this.pointOfTranslation.y)
-    })
-    this.largestY = this.calculateLargestY()
-    this.smallestX = this.calculateSmallestX()
-    this.largestX = this.calculateLargestX()
-  }
-
-  rotateCounterClockwise () {
-    this.squares.forEach(square => {
-      square.transformCounterClockwise(this.pointOfTranslation.x, this.pointOfTranslation.y)
     })
     this.largestY = this.calculateLargestY()
     this.smallestX = this.calculateSmallestX()
@@ -150,6 +141,53 @@ export class Shape {
       square.roundYCoordinateToNearestTen()
     })
   }
+
+  getCoordinatesOfSquares () {
+    return this.squares.map(square => ({
+      x: square.point.x,
+      y: square.point.y
+    }))
+  }
+
+  restoreCoordinatesOfSquares (originalCoordinates) {
+    for (let i = 0; i < originalCoordinates.length; i++) {
+      this.squares[i].point.x = originalCoordinates[i].x
+      this.squares[i].point.y = originalCoordinates[i].y
+    }
+    this.largestY = this.calculateLargestY()
+    this.smallestX = this.calculateSmallestX()
+    this.largestX = this.calculateLargestX()
+  }
+
+  /**
+   * Subpixel antialiasing is always enabled when using canvas and I am using potential floating point numbers
+   * as y-coordinates of top left points of squares for drawing. This resulted in visible vertical tearing between
+   * the squares of the moving shape.
+   * This is a workaround.
+   * Contiguous vertical squares are 'stitched' together for the purpose of drawing only.
+   */
+  drawAsRectangles () {
+    const clonedSortedSquares = [...this.squares].sort((squareA, squareB) => squareA.point.y - squareB.point.y)
+    const verticalRectangles = clonedSortedSquares.reduce((acc, square) => {
+      const earlierContiguousSquare = acc.find(earlierSquare => {
+        const diff = Math.abs(earlierSquare.y + earlierSquare.drawingHeight - square.point.y)
+        return earlierSquare.x === square.point.x && diff < 1e-10
+      })
+      if (earlierContiguousSquare) {
+        earlierContiguousSquare.drawingHeight += square.sideLength
+      } else {
+        acc.push({
+          x: square.point.x,
+          y: square.point.y,
+          drawingWidth: square.sideLength,
+          drawingHeight: square.sideLength
+        })
+      }
+      return acc
+    }, [])
+    this.context.fillStyle = this.squares[0].fillStyle
+    verticalRectangles.forEach(rect => this.context.fillRect(rect.x, rect.y, rect.drawingWidth, rect.drawingHeight))
+  }
 }
 
 class O extends Shape {
@@ -170,9 +208,6 @@ class O extends Shape {
 
   // eslint-disable-next-line class-methods-use-this
   rotateClockwise () { }
-
-  // eslint-disable-next-line class-methods-use-this
-  rotateCounterClockwise () { }
 }
 
 class T extends Shape {

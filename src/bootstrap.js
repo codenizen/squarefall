@@ -11,7 +11,7 @@ const gameContainer = document.getElementById('gameContainer')
 gameContainer.append(canvas)
 
 const context = canvas.getContext('2d')
-const speed = new Speed(SQUARE_SIDE_LENGTH)
+const speed = new Speed(parseFloat((SQUARE_SIDE_LENGTH / 32).toFixed(1)))
 const shapeGenerator = new ShapeGenerator(canvas, context, speed)
 const game = new Game(canvas, context, shapeGenerator, speed)
 
