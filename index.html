@@ -1,16 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Squarefall</title>
-    <link rel="stylesheet" href="./style.css">
-    <script type="module" src="main.js" defer></script>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="bootstrap.js" defer></script>
   </head>
 
   <body>
     <div id="loading">Loading...</div>
     <div align="center" id="container">
-      <div id="helpContainer">
+      <div id="helpContainer" class="helpContainer-leaderboard-closed">
         <div class="heading">H E L P</div>
         <div id="keymapContainer">
           <div>
@@ -33,13 +33,14 @@
             <keyboard-key>P</keyboard-key>
           </div>
           <div>pause</div>
+          <div>
+            <keyboard-key>B</keyboard-key>
+          </div>
+          <div>leaderboard</div>
         </div>
       </div>
-      <div id="gameContainer">
-    </div>
-    <div id="gameOverContainer" hidden>
-        GAME OVER
-    </div>
+      <div id="gameContainer"></div>
+      <div id="gameOverContainer" hidden>GAME OVER</div>
       <div id="speedContainer">
         <div class="heading">S P E E D</div>
         <span id="current-speed">0</span>
@@ -55,7 +56,33 @@
           <span id="current-score">0</span>
         </div>
       </div>
+      <div id="leaderboardContainer" class="closed">
+        <div class="heading">L E A D E R B O A R D</div>
+        <div id="status" class="closed"></div>
+        <div id="leaderboardEntries">
+          <div id="name-header">Name</div>
+          <div id="score-header">Score</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay closed" id="modal-overlay"></div>
+    <div class="modal closed" id="leaderboard-modal">
+      <p>
+        <span>Achieved score: </span>
+        <span id="submitted-score"></span>
+      </p>
+      <p>
+        If you'd like to submit this score to the global leaderboard, type a
+        nickname below, then click the 'Submit' button.
+      </p>
+      <p>N.B.: For privacy reasons, please don't use your full real name.</p>
+      <p>
+        <label for="submitted-name">Name: </label>
+        <input type="text" id="submitted-name" />
+        <button id="submit-button">Submit</button>
+      </p>
+      <button id="close-modal-button">Close</button>
     </div>
   </body>
-
 </html>
