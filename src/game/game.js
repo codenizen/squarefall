@@ -4,11 +4,12 @@ import Grid from '../grid/grid.js'
 import Score from '../score/score.js'
 
 export class Game {
-  constructor (canvas, context, shapeGenerator, speed) {
+  constructor (canvas, context, shapeGenerator, speed, leaderboard) {
     this.canvas = canvas
     this.context = context
     this.shapeGenerator = shapeGenerator
     this.speed = speed
+    this.leaderboard = leaderboard
   }
 
   update () {
@@ -72,6 +73,7 @@ export class Game {
       if (this.grid.movingShape) {
         switch (event.key) {
           case 'p': this.pause(); break
+          case 'b': this.toggleLeaderboard(); break
           default: break
         }
       }
@@ -105,6 +107,11 @@ export class Game {
     this.currentAnimationFrameRequestId = window.requestAnimationFrame(() => this.gameLoop())
   }
 
+  toggleLeaderboard () {
+    this.pause()
+    this.leaderboard.toggle()
+  }
+
   setCanvasWidth () {
     const desiredWidth = 10 * SQUARE_SIDE_LENGTH
 
@@ -136,6 +143,8 @@ export class Game {
     window.removeEventListener('keypress', this.keyHandler)
     window.removeEventListener('keypress', this.pauseKeyHandler)
     this.isOver = true
+
+    this.leaderboard.showScoreSubmissionModal(this.score.get())
   }
 
   requestSpeedIncrease () {
