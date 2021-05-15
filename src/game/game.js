@@ -144,7 +144,7 @@ export class Game {
     window.removeEventListener('keypress', this.pauseKeyHandler)
     this.isOver = true
 
-    this.leaderboard.showScoreSubmissionModal(this.score.get())
+    this.leaderboard.showScoreSubmissionModalIfEligible(this.score.get())
   }
 
   requestSpeedIncrease () {

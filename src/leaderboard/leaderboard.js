@@ -61,26 +61,30 @@ export class Leaderboard {
     this.scoreService.submit(name, value)
   }
 
-  showScoreSubmissionModal (score) {
-    if (document.getElementById('leaderboard-modal').classList.contains('closed')) {
-      document.getElementById('submitted-name').value = 'Ann Onymous'
-      document.getElementById('submitted-score').innerText = score
-      document.getElementById('submit-button').addEventListener('click', () => {
-        const name = document.getElementById('submitted-name').value
-        const value = score
-        this.scoreService.submit(name, value)
-        this.toggleModals()
-      })
-      window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+  async showScoreSubmissionModalIfEligible (score) {
+    const isEligible = await this.scoreService.isEligible(score)
+
+    if (isEligible) {
+      if (document.getElementById('leaderboard-modal').classList.contains('closed')) {
+        document.getElementById('submitted-name').value = 'Ann Onymous'
+        document.getElementById('submitted-score').innerText = score
+        document.getElementById('submit-button').addEventListener('click', () => {
+          const name = document.getElementById('submitted-name').value
+          const value = score
+          this.scoreService.submit(name, value)
           this.toggleModals()
-        }
-      })
-      document.getElementById('close-modal-button').addEventListener('click', () => {
-        this.toggleModals()
-      })
+        })
+        window.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            this.toggleModals()
+          }
+        })
+        document.getElementById('close-modal-button').addEventListener('click', () => {
+          this.toggleModals()
+        })
+      }
+      this.toggleModals()
     }
-    this.toggleModals()
   }
 
   toggleModals () {
