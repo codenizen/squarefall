@@ -8,7 +8,8 @@ describe('ShapeGenerator', () => {
 
   describe('generated shape', () => {
     const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext('webgl')
+    context.canvas = canvas
 
     const shapeGenerator = new ShapeGenerator(canvas, context)
 

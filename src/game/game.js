@@ -3,6 +3,9 @@ import { SQUARE_SIDE_LENGTH } from '../constants.js'
 import Grid from '../grid/grid.js'
 import Score from '../score/score.js'
 
+import vertexShaderSource from '../shaders/vertex-shader.glsl.js'
+import fragmentShaderSource from '../shaders/fragment-shader.glsl.js'
+
 export class Game {
   constructor (canvas, context, shapeGenerator, speed, leaderboard) {
     this.canvas = canvas
@@ -37,14 +40,9 @@ export class Game {
   }
 
   draw () {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.grid.shapes.forEach(shape => {
-      if (shape === this.grid.movingShape) {
-        shape.drawAsRectangles()
-      } else {
-        shape.drawAsSquares()
-      }
-    })
+    const gl = this.context;
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    this.grid.shapes.forEach(shape => shape.draw(this.shaderProgram))
   }
 
   gameLoop () {
@@ -59,6 +57,8 @@ export class Game {
     this.setCanvasWidth()
     this.setCanvasHeight()
 
+    this.initGraphics()
+
     window.setTimeout(() => {
       document.getElementById('loading').hidden = true
       document.getElementById('container').style.display = 'grid'
@@ -67,7 +67,7 @@ export class Game {
     this.grid = new Grid(this.canvas, this.context, this.speed)
     this.score = new Score()
     document.getElementById('current-speed').innerText = this.speed.shownValue
-    this.SCORE_PER_SPEED_INCREASE = 50
+    this.SCORE_PER_SPEED_INCREASE = 10
     this.MAX_SPEED = 9
     this.paused = (event) => {
       if (this.grid.movingShape) {
@@ -105,6 +105,36 @@ export class Game {
     this.isPaused = false
 
     this.currentAnimationFrameRequestId = window.requestAnimationFrame(() => this.gameLoop())
+  }
+
+  initGraphics () {
+    const gl = this.context
+
+    const vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+    this.shaderProgram = this.createProgram(gl, vertexShader, fragmentShader)
+
+    const positionAttributeLocation = gl.getAttribLocation(this.shaderProgram, "a_position");
+    const resolutionUniformLocation = gl.getUniformLocation(this.shaderProgram, "u_resolution");
+
+    const positionBuffer = gl.createBuffer();
+
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    gl.useProgram(this.shaderProgram);
+    gl.enableVertexAttribArray(positionAttributeLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
+    const size = 2;          // 2 components per iteration
+    const type = gl.FLOAT;   // the data is 32bit floats
+    const normalized = false; // don't normalize the data
+    const stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
+    const offset = 0;        // start at the beginning of the buffer
+    gl.vertexAttribPointer(positionAttributeLocation, size, type, normalized, stride, offset);
+
+    // set the resolution
+    gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
   }
 
   toggleLeaderboard () {
@@ -172,5 +202,33 @@ export class Game {
 
   static showGameOverText () {
     document.getElementById('gameOverContainer').hidden = false
+  }
+
+  createProgram (gl, vertexShader, fragmentShader) {
+    const shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+    const success = gl.getProgramParameter(shaderProgram, gl.LINK_STATUS);
+    if (success) {
+      return shaderProgram;
+    }
+
+    console.log(gl.getProgramInfoLog(shaderProgram));
+    gl.deleteProgram(shaderProgram);
+  }
+
+  createShader (gl, type, source) {
+    const shader = gl.createShader(type)
+    // Send the source to the shader object
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    if (success) {
+      return shader;
+    }
+
+    console.log(gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
   }
 }

@@ -4,11 +4,11 @@ import Point from '../point/point.js'
 import Square from '../square/square.js'
 
 export class Shape {
-  init (fillStyle, pointOfTranslation, points, context, speed) {
+  init (colorRgb, pointOfTranslation, points, context, speed) {
     this.pointOfTranslation = pointOfTranslation
 
-    const pointOfTranslationSquare = new Square(pointOfTranslation, fillStyle, context, speed)
-    const otherSquares = points.map(point => new Square(point, fillStyle, context, speed))
+    const pointOfTranslationSquare = new Square(pointOfTranslation, colorRgb, context, speed)
+    const otherSquares = points.map(point => new Square(point, colorRgb, context, speed))
 
     this.squares = [pointOfTranslationSquare, ...otherSquares]
 
@@ -35,8 +35,8 @@ export class Shape {
     }
   }
 
-  drawAsSquares () {
-    this.squares.forEach(square => square.draw())
+  draw (shaderProgram) {
+    this.squares.forEach(square => square.draw(shaderProgram))
   }
 
   drawPoints () {
@@ -158,36 +158,6 @@ export class Shape {
     this.smallestX = this.calculateSmallestX()
     this.largestX = this.calculateLargestX()
   }
-
-  /**
-   * Subpixel antialiasing is always enabled when using canvas and I am using potential floating point numbers
-   * as y-coordinates of top left points of squares for drawing. This resulted in visible vertical tearing between
-   * the squares of the moving shape.
-   * This is a workaround.
-   * Contiguous vertical squares are 'stitched' together for the purpose of drawing only.
-   */
-  drawAsRectangles () {
-    const clonedSortedSquares = [...this.squares].sort((squareA, squareB) => squareA.point.y - squareB.point.y)
-    const verticalRectangles = clonedSortedSquares.reduce((acc, square) => {
-      const earlierContiguousSquare = acc.find(earlierSquare => {
-        const diff = Math.abs(earlierSquare.y + earlierSquare.drawingHeight - square.point.y)
-        return earlierSquare.x === square.point.x && diff < 1e-10
-      })
-      if (earlierContiguousSquare) {
-        earlierContiguousSquare.drawingHeight += square.sideLength
-      } else {
-        acc.push({
-          x: square.point.x,
-          y: square.point.y,
-          drawingWidth: square.sideLength,
-          drawingHeight: square.sideLength
-        })
-      }
-      return acc
-    }, [])
-    this.context.fillStyle = this.squares[0].fillStyle
-    verticalRectangles.forEach(rect => this.context.fillRect(rect.x, rect.y, rect.drawingWidth, rect.drawingHeight))
-  }
 }
 
 class O extends Shape {
@@ -201,9 +171,9 @@ class O extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'thistle'
+    const colorRgb = [216, 191, 216]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -221,9 +191,9 @@ class T extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'lightgrey'
+    const colorRgb = [211, 211, 211]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
@@ -238,9 +208,9 @@ class I extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'yellowgreen'
+    const colorRgb = [154, 205, 50]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
@@ -255,9 +225,9 @@ class S extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'khaki'
+    const colorRgb = [240, 230, 140]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
@@ -272,9 +242,9 @@ class Z extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'tan'
+    const colorRgb = [210, 180, 140]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
@@ -289,9 +259,9 @@ class L extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'lightblue'
+    const colorRgb = [173, 216, 230]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 }
 
@@ -306,9 +276,9 @@ class J extends Shape {
 
     const otherPoints = [point1, point2, point3]
 
-    const fillStyle = 'darksalmon'
+    const colorRgb = [233, 150, 122]
 
-    super.init(fillStyle, pointOfTranslation, otherPoints, context, speed)
+    super.init(colorRgb, pointOfTranslation, otherPoints, context, speed)
   }
 }
 

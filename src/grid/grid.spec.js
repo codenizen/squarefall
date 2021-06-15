@@ -35,7 +35,8 @@ describe('Grid', () => {
   describe('rotateShape()', () => {
     describe('restores the original coordinates of the shape when trying to rotate out of canvas bounds', () => {
       const canvas = document.createElement('canvas')
-      const context = canvas.getContext('2d')
+      const context = canvas.getContext('webgl')
+      context.canvas = canvas
       const speed = new Speed(2)
       const shapeGenerator = new ShapeGenerator(canvas, context)
 
@@ -89,7 +90,8 @@ describe('Grid', () => {
 
   test('print()', () => {
     const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext('webgl')
+    context.canvas = canvas
     const shapeGenerator = new ShapeGenerator(canvas, context)
 
     const { I, J, Z } = shapeTypes
@@ -149,7 +151,8 @@ describe('Grid', () => {
       canvas.width = 500
       canvas.height = 1000
 
-      const context = canvas.getContext('2d')
+      const context = canvas.getContext('webgl')
+      context.canvas = canvas
       const shapeGenerator = new ShapeGenerator(canvas, context)
 
       const { I, J, T } = shapeTypes

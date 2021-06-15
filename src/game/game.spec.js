@@ -13,7 +13,8 @@ describe('Game', () => {
 
   beforeEach(() => {
     canvas = document.createElement('canvas')
-    context = canvas.getContext('2d')
+    context = canvas.getContext('webgl')
+    context.canvas = canvas
     speed = new Speed(2)
     shapeGenerator = new ShapeGenerator(canvas, context, speed)
   })
