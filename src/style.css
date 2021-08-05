@@ -74,10 +74,18 @@
   grid-row-end: 5;
 }
 
-#keymapContainer, #leaderboardEntries {
+#keymapContainer,
+#leaderboardEntries {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   align-items: center;
+}
+
+#keymapContainer {
+  grid-template-columns: 1fr 1fr;
+}
+
+#leaderboardEntries {
+  grid-template-columns: 2fr 1fr;
 }
 
 #loading {
