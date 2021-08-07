@@ -15,8 +15,8 @@ export class Leaderboard {
   }
 
   async open () {
-    document.getElementById('helpContainer').classList.add('helpContainer-leaderboard-open')
-    document.getElementById('helpContainer').classList.remove('helpContainer-leaderboard-closed')
+    document.getElementById('controlsContainer').classList.add('controlsContainer-leaderboard-open')
+    document.getElementById('controlsContainer').classList.remove('controlsContainer-leaderboard-closed')
     document.getElementById('leaderboardContainer').classList.remove('closed')
     document.getElementById('status').innerText = 'Loading...'
     document.getElementById('status').classList.remove('closed')
@@ -47,8 +47,8 @@ export class Leaderboard {
     document.getElementById('status').innerText = ''
     document.getElementById('leaderboardEntries').style.display = 'none'
     document.getElementById('leaderboardContainer').classList.add('closed')
-    document.getElementById('helpContainer').classList.remove('helpContainer-leaderboard-open')
-    document.getElementById('helpContainer').classList.add('helpContainer-leaderboard-closed')
+    document.getElementById('controlsContainer').classList.remove('controlsContainer-leaderboard-open')
+    document.getElementById('controlsContainer').classList.add('controlsContainer-leaderboard-closed')
     document.querySelectorAll('.score-entry-left').forEach(element => element.remove())
     document.querySelectorAll('.score-entry-right').forEach(element => element.remove())
   }

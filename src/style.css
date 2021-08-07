@@ -1,13 +1,13 @@
 #gameCanvas,
 #scoreContainer,
-#helpContainer,
+#controlsContainer,
 #speedContainer,
 #leaderboardContainer {
   border: 1px solid #000000;
 }
 
 #scoreContainer,
-#helpContainer,
+#controlsContainer,
 #speedContainer,
 #leaderboardContainer {
   padding: 1em;
@@ -23,14 +23,14 @@
   align-items: center;
 }
 
-.helpContainer-leaderboard-open {
+.controlsContainer-leaderboard-open {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 3;
   grid-row-end: 4;
 }
 
-.helpContainer-leaderboard-closed {
+.controlsContainer-leaderboard-closed {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 3;
