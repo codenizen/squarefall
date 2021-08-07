@@ -37,23 +37,40 @@ describe('Game', () => {
       }).not.toThrow()
     })
 
-    test('sets up canvas dimensions', () => {
-      jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
-      jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
+    describe('sets up canvas dimensions', () => {
+      const cases = [
+        [720, 600],
+        [768, 650],
+        [900, 750],
+        [1024, 850],
+        [1050, 850],
+        [1080, 850],
+        [1200, 850],
+        [1440, 850],
+        [1536, 850],
+        [1600, 850],
+        [2048, 850],
+        [2160, 850]
+      ]
 
-      const shapeTypesIterable = Object.values(shapeTypes)
+      test.each(cases)('with screen height %i, game height becomes %i', (screenHeight, setHeight) => {
+        jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
+        jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(screenHeight)
 
-      for (const shapeType of shapeTypesIterable) {
-        jest.spyOn(Object, 'values').mockReturnValueOnce([shapeType])
-      }
+        const shapeTypesIterable = Object.values(shapeTypes)
 
-      game.init()
+        for (const shapeType of shapeTypesIterable) {
+          jest.spyOn(Object, 'values').mockReturnValueOnce([shapeType])
+        }
 
-      const adjustedWidth = canvas.width
-      const adjustedHeight = canvas.height
+        game.init()
 
-      expect(adjustedWidth).toBe(500)
-      expect(adjustedHeight).toBe(1000)
+        const adjustedWidth = canvas.width
+        const adjustedHeight = canvas.height
+
+        expect(adjustedWidth).toBe(500)
+        expect(adjustedHeight).toBe(setHeight)
+      })
     })
 
     test('sets up a grid', () => {

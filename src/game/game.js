@@ -123,15 +123,17 @@ export class Game {
   setCanvasHeight () {
     let desiredHeight = window.screen.availHeight
 
-    if (desiredHeight % 100 !== 0) {
-      desiredHeight -= desiredHeight % 100
-    }
-
-    desiredHeight -= 100 // To leave room for browser/OS UI toolbars
-
     if (desiredHeight > 20 * SQUARE_SIDE_LENGTH) {
       desiredHeight = 20 * SQUARE_SIDE_LENGTH
     }
+
+    /* This is an estimation, and may be inaccurate, depending on whether
+    the browser has its bookmarks toolbar set to show, etc. */
+    const assumedToolbarsHeight = 100
+
+    desiredHeight -= assumedToolbarsHeight
+
+    desiredHeight -= (desiredHeight % SQUARE_SIDE_LENGTH) || SQUARE_SIDE_LENGTH
 
     this.canvas.height = desiredHeight
   }

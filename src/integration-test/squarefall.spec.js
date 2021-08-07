@@ -112,13 +112,13 @@ describe('Squarefall', () => {
     const { I, O, L, J, S, Z, T } = shapeTypes
 
     const cases = [
-      [I, [950, 950, 950, 950]],
-      [O, [900, 900, 950, 950]],
-      [L, [900, 900, 900, 950]],
-      [J, [900, 900, 900, 950]],
-      [S, [900, 900, 950, 950]],
-      [Z, [900, 900, 950, 950]],
-      [T, [900, 950, 950, 950]]
+      [I, [800, 800, 800, 800]],
+      [O, [750, 750, 800, 800]],
+      [L, [750, 750, 750, 800]],
+      [J, [750, 750, 750, 800]],
+      [S, [750, 750, 800, 800]],
+      [Z, [750, 750, 800, 800]],
+      [T, [750, 800, 800, 800]]
     ]
 
     test.each(cases)(' with shape of type %p', (type, expectedYCoordinates) => {
@@ -260,7 +260,7 @@ describe('Squarefall', () => {
 
     expect(game.score.get()).toBeGreaterThan(0)
 
-    const expectedRemainingPointCoordinates = [200, 400, 950, 950]
+    const expectedRemainingPointCoordinates = [200, 400, 800, 800]
 
     const actualRemainingPointCoordinates = game.grid.shapes
       .map(shape => shape.squares)
@@ -447,7 +447,7 @@ describe('Squarefall', () => {
     expect(game.score.get()).toBeGreaterThan(0)
 
     const expectedRemainingPointCoordinates = [0, 50, 50, 100, 100, 100, 150, 150, 200, 250,
-      850, 900, 900, 900, 950, 950, 950, 950, 950, 950]
+      700, 750, 750, 750, 800, 800, 800, 800, 800, 800]
 
     const actualRemainingPointCoordinates = game.grid.shapes
       .map(shape => shape.squares)
@@ -633,7 +633,7 @@ describe('Squarefall', () => {
     expect(game.score.get()).toBeGreaterThan(0)
 
     const expectedRemainingPointCoordinates = [0, 0, 50, 50, 100, 100, 100, 150, 150, 200, 250, 300, 300, 300, 350, 350, 400, 450, 450, 450,
-      850, 850, 850, 900, 900, 900, 900, 900, 900, 900, 900, 900, 950, 950, 950, 950, 950, 950, 950, 950]
+      700, 700, 700, 750, 750, 750, 750, 750, 750, 750, 750, 750, 800, 800, 800, 800, 800, 800, 800, 800]
 
     const actualRemainingPointCoordinates = game.grid.shapes
       .map(shape => shape.squares)
