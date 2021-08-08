@@ -1,3 +1,7 @@
+body {
+  font-family: sans-serif;
+}
+
 #gameCanvas,
 #scoreContainer,
 #controlsContainer,
@@ -135,7 +139,6 @@ keyboard-key {
 }
 
 .heading {
-  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
 }
 
