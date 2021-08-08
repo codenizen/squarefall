@@ -10,7 +10,7 @@ describe('Game', () => {
   let context
   let shapeGenerator
   let speed
-  const leaderboard = { toggle: () => { } }
+  const leaderboard = { reset: () => { } }
 
   beforeEach(() => {
     canvas = document.createElement('canvas')

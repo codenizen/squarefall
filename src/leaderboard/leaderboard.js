@@ -1,24 +1,10 @@
 export class Leaderboard {
   constructor (scoreService) {
     this.scoreService = scoreService
-    this.isOpen = false
   }
 
-  async toggle () {
-    if (this.isOpen) {
-      this.close()
-    } else {
-      this.open()
-    }
-
-    this.isOpen = !this.isOpen
-  }
-
-  async open () {
+  async reset () {
     document.getElementById('leaderboardEntries').replaceChildren()
-    document.getElementById('controlsContainer').classList.add('controlsContainer-leaderboard-open')
-    document.getElementById('controlsContainer').classList.remove('controlsContainer-leaderboard-closed')
-    document.getElementById('leaderboardContainer').classList.remove('closed')
     document.getElementById('status').innerText = 'Loading...'
     document.getElementById('status').classList.remove('closed')
 
@@ -41,17 +27,6 @@ export class Leaderboard {
         document.getElementById('leaderboardEntries').append(leftDiv, rightDiv)
       }
     }
-  }
-
-  close () {
-    document.getElementById('status').classList.add('closed')
-    document.getElementById('status').innerText = ''
-    document.getElementById('leaderboardEntries').style.display = 'none'
-    document.getElementById('leaderboardContainer').classList.add('closed')
-    document.getElementById('controlsContainer').classList.remove('controlsContainer-leaderboard-open')
-    document.getElementById('controlsContainer').classList.add('controlsContainer-leaderboard-closed')
-    document.querySelectorAll('.score-entry-left').forEach(element => element.remove())
-    document.querySelectorAll('.score-entry-right').forEach(element => element.remove())
   }
 
   async fetch () {

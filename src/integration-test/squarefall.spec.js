@@ -10,7 +10,7 @@ describe('Squarefall', () => {
       game.gameLoop()
     }
   }
-  const leaderboard = { toggle: () => { } }
+  const leaderboard = { reset: () => { } }
 
   describe('Move shape left keypress works as expected', () => {
     const canvas = document.createElement('canvas')

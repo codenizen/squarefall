@@ -70,12 +70,8 @@ export class Game {
     this.SCORE_PER_SPEED_INCREASE = 50
     this.MAX_SPEED = 9
     this.paused = (event) => {
-      if (this.grid.movingShape) {
-        switch (event.key) {
-          case 'p': this.pause(); break
-          case 'b': this.toggleLeaderboard(); break
-          default: break
-        }
+      if (this.grid.movingShape && event.key === 'p') {
+        this.pause()
       }
     }
     this.keyPressed = (event) => {
@@ -102,16 +98,11 @@ export class Game {
     this.pauseKeyHandler = this.paused.bind(this)
     window.addEventListener('keypress', this.pauseKeyHandler)
 
-    this.leaderboard.toggle()
+    this.leaderboard.reset()
 
     this.isPaused = false
 
     this.currentAnimationFrameRequestId = window.requestAnimationFrame(() => this.gameLoop())
-  }
-
-  toggleLeaderboard () {
-    this.pause()
-    this.leaderboard.toggle()
   }
 
   setCanvasWidth () {

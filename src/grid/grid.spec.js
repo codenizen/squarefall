@@ -38,7 +38,7 @@ describe('Grid', () => {
       const context = canvas.getContext('2d')
       const speed = new Speed(2)
       const shapeGenerator = new ShapeGenerator(canvas, context)
-      const leaderboard = { toggle: () => {} }
+      const leaderboard = { reset: () => {} }
 
       const { I, L, J, S, Z, T, O } = shapeTypes
 
