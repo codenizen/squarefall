@@ -10,6 +10,7 @@ describe('Game', () => {
   let context
   let shapeGenerator
   let speed
+  const leaderboard = { toggle: () => { } }
 
   beforeEach(() => {
     canvas = document.createElement('canvas')
@@ -26,14 +27,14 @@ describe('Game', () => {
     let game
 
     beforeEach(() => {
-      game = new Game(canvas, context, shapeGenerator, speed)
+      game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
       jest.spyOn(document, 'getElementById')
         .mockReturnValueOnce({}) // score
         .mockReturnValueOnce({}) // speed
     })
     test('can be called', () => {
       expect(() => {
-        new Game(canvas, context, shapeGenerator, speed).init()
+        new Game(canvas, context, shapeGenerator, speed, leaderboard).init()
       }).not.toThrow()
     })
 
@@ -105,7 +106,7 @@ describe('Game', () => {
     let game
 
     beforeEach(() => {
-      game = new Game(canvas, context, shapeGenerator, speed)
+      game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
       jest.spyOn(document, 'getElementById')
         .mockReturnValueOnce({}) // score
         .mockReturnValueOnce({}) // speed

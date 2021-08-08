@@ -10,6 +10,7 @@ describe('Squarefall', () => {
       game.gameLoop()
     }
   }
+  const leaderboard = { toggle: () => { } }
 
   describe('Move shape left keypress works as expected', () => {
     const canvas = document.createElement('canvas')
@@ -31,7 +32,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator, speed)
+      const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
       game.init()
 
@@ -77,7 +78,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator, speed)
+      const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
       game.init()
 
@@ -129,7 +130,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator, speed)
+      const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
       game.init()
 
@@ -174,7 +175,7 @@ describe('Squarefall', () => {
       jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
       jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-      const game = new Game(canvas, context, shapeGenerator, speed)
+      const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
       game.init()
 
@@ -215,7 +216,7 @@ describe('Squarefall', () => {
     jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
     jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-    const game = new Game(canvas, context, shapeGenerator, speed)
+    const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
     game.init()
 
@@ -298,7 +299,7 @@ describe('Squarefall', () => {
     jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
     jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-    const game = new Game(canvas, context, shapeGenerator, speed)
+    const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
     game.init()
 
@@ -485,7 +486,7 @@ describe('Squarefall', () => {
     jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
     jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-    const game = new Game(canvas, context, shapeGenerator, speed)
+    const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
     game.init()
 

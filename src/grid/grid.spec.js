@@ -38,6 +38,7 @@ describe('Grid', () => {
       const context = canvas.getContext('2d')
       const speed = new Speed(2)
       const shapeGenerator = new ShapeGenerator(canvas, context)
+      const leaderboard = { toggle: () => {} }
 
       const { I, L, J, S, Z, T, O } = shapeTypes
 
@@ -62,7 +63,7 @@ describe('Grid', () => {
         jest.spyOn(window.screen, 'availWidth', 'get').mockReturnValueOnce(700)
         jest.spyOn(window.screen, 'availHeight', 'get').mockReturnValueOnce(1100)
 
-        const game = new Game(canvas, context, shapeGenerator, speed)
+        const game = new Game(canvas, context, shapeGenerator, speed, leaderboard)
 
         game.init()
 

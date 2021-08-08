@@ -102,6 +102,8 @@ export class Game {
     this.pauseKeyHandler = this.paused.bind(this)
     window.addEventListener('keypress', this.pauseKeyHandler)
 
+    this.leaderboard.toggle()
+
     this.isPaused = false
 
     this.currentAnimationFrameRequestId = window.requestAnimationFrame(() => this.gameLoop())
