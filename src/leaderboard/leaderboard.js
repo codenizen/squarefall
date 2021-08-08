@@ -15,6 +15,7 @@ export class Leaderboard {
   }
 
   async open () {
+    document.getElementById('leaderboardEntries').replaceChildren()
     document.getElementById('controlsContainer').classList.add('controlsContainer-leaderboard-open')
     document.getElementById('controlsContainer').classList.remove('controlsContainer-leaderboard-closed')
     document.getElementById('leaderboardContainer').classList.remove('closed')
