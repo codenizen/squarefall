@@ -23,18 +23,11 @@
   align-items: center;
 }
 
-.controlsContainer-leaderboard-open {
+#controlsContainer {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 3;
   grid-row-end: 4;
-}
-
-.controlsContainer-leaderboard-closed {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 3;
-  grid-row-end: 5;
 }
 
 #leaderboardContainer {
