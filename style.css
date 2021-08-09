@@ -72,12 +72,14 @@ body {
 }
 
 #keymapContainer,
+#scoreContainerContent,
 #leaderboardEntries {
   display: grid;
   align-items: center;
 }
 
-#keymapContainer {
+#keymapContainer,
+#scoreContainerContent {
   grid-template-columns: 1fr 1fr;
 }
 
