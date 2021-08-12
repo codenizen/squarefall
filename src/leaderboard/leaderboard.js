@@ -48,6 +48,7 @@ export class Leaderboard {
           const name = document.getElementById('submitted-name').value
           const value = score
           this.scoreService.submit(name, value)
+          window.setTimeout(() => this.reset(), 3000)
           this.toggleModals()
         })
         window.addEventListener('keydown', (event) => {
